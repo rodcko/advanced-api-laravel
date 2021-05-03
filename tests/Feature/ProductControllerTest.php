@@ -13,10 +13,15 @@ class ProductControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        Sanctum::actingAs(
+            factory(User::class)->create()
+        );
     }
 
     public function test_index()
     {
+
         factory(Product::class, 5)->create();
 
         $response = $this->getJson('/api/products');
@@ -27,6 +32,7 @@ class ProductControllerTest extends TestCase
 
     public function test_create_new_product()
     {
+        
         $data = [
             'name' => 'Hola',
             'price' => 1000,
