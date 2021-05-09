@@ -35,6 +35,13 @@ trait CanRate
             return false;
         }
 
+        $from = config('rating.from');
+        $to = config('rating.to');
+
+        if ($score < $from || $score > $to) {
+            throw new InvalidScore($from, $to);
+        }
+
         $this->ratings($model)->attach($model->getKey(), [
             'score' => $score,
             'rateable_type' => get_class($model)
